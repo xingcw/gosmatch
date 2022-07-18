@@ -20,6 +20,9 @@ def build_graph_desc(centroids_vector, semantics_vector):
         distances = squareform(pdist(np.concatenate([sgi, sgj])))
         distances = distances[0:len(sgi), len(sgi):]
 
+        if i == j:
+            distances = distances[np.tril_indices(len(sgi))]
+
         bins = [1e-4]
         bins.extend(list(range(1, vec_size)))
         bins.append(1e4)
@@ -55,7 +58,7 @@ def get_vertex_desc(centroids_vector, semantics_vector):
 
 
 def main():
-    semantic_database = np.loadtxt("semantic_database.csv", delimiter=",", dtype=np.int64)
+    semantic_database = np.loadtxt("results/semantic_database.csv", delimiter=",", dtype=np.int64)
 
     for i in range(len(semantic_database)):
         print("====" * 20, i)
